@@ -12,6 +12,11 @@ fn main() {
             0 => exit(),
             1 => addition(&mut result),
             2 => subtraction(&mut result),
+            3 => multiplication(&mut result),
+            4 => division(&mut result),
+            5 => exponentiation(&mut result),
+            6 => lograithm(&mut result),
+            7 => display_average(),
             _ => {
                 println!("Error: Invalid selection!");
             },
@@ -89,25 +94,22 @@ fn subtraction(result: &mut f64) {
 }
 
 // // 3. Multiplication
-// fn multiplication(result: f64) {
-//     let first_operand = enter_first_operand(result);
-//     let second_operand = enter_second_operand(result);
-//     let result = first_operand * second_operand;
-//     println!("{}", result);
-// }
+fn multiplication(result: &mut f64) {
+    operation(result, |a, b| a * b);
+}
 // // 4. Division
-// fn division() {
-
-// }
+fn division(result: &mut f64) {
+    operation(result, |a,  b| a / b);
+}
 // // 5. Exponentiation
-// fn exponentiation() {
-
-// }
+fn exponentiation(result: &mut f64) {
+    operation(result, |a, b| f64::powf(a, b));
+}
 // // 6. Logarithm
-// fn lograithm() {
-
-// }
+fn lograithm(result: &mut f64) {
+    operation(result,|a, b| b.log(a));
+}
 // // 7. Display Average
-// fn display_average() {
+fn display_average() {
 
-// }
+}
