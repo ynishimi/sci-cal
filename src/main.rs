@@ -10,8 +10,8 @@ fn main() {
         let menu_input = menu_selection();
         match menu_input {
             0 => exit(),
-            1 => addition(result),
-            2 => subtraction(result),
+            1 => addition(&mut result),
+            2 => subtraction(&mut result),
             _ => {
                 println!("Error: Invalid selection!");
             },
@@ -31,13 +31,13 @@ fn menu_selection() -> i8 {
     };
 }
 
-fn enter_operand(result: f64) -> f64 {
+fn enter_operand(result:  &f64) -> f64 {
     io::stdout().flush().unwrap();
     let mut operand = String::new();
     match io::stdin().read_line(&mut operand) {
         Ok(_) => {
             match operand.trim() {
-                "RESULT" => return result,
+                "RESULT" => return *result,
                 // Other than "RESULT"
                 _ => {
                     let operand: f64 = operand.trim().parse().expect("Error: Invalid input!");
@@ -49,13 +49,13 @@ fn enter_operand(result: f64) -> f64 {
     };
 }
 
-fn enter_first_operand(result: f64) -> f64 {
+fn enter_first_operand(result: & f64) -> f64 {
     print!("Enter first operand: ");
     io::stdout().flush().unwrap();
     enter_operand(result)
 }
 
-fn enter_second_operand(result: f64) -> f64 {
+fn enter_second_operand(result: & f64) -> f64 {
     print!("Enter second operand: ");
     io::stdout().flush().unwrap();
     enter_operand(result)
@@ -68,23 +68,23 @@ fn exit() {
     std::process::exit(0);
 }
 
-fn operation<T>(result: f64, calc: T)
+fn operation<T>(result: &mut f64, calc: T)
 where
     T: Fn(f64, f64) -> f64,
 {
-    let first_operand = enter_first_operand(result);
-    let second_operand = enter_second_operand(result);
-    let result = calc(first_operand, second_operand);
-    println!("{}", result);
+    let first_operand = enter_first_operand(&result);
+    let second_operand = enter_second_operand(&result);
+    // add * to change the value of result
+    *result = calc(first_operand, second_operand);
 }
 
 // 1. Addition
-fn addition(mut result: f64) {
+fn addition(result: &mut f64) {
     operation(result, |a, b| a + b);
 }
 
 // // 2. Subtraction
-fn subtraction(result: f64) {
+fn subtraction(result: &mut f64) {
     operation(result, |a, b| a - b);
 }
 
