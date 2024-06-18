@@ -11,6 +11,7 @@ fn main() {
         match menu_input {
             0 => exit(),
             1 => addition(result),
+            2 => subtraction(result),
             _ => {
                 println!("Error: Invalid selection!");
             },
@@ -24,7 +25,6 @@ fn menu_selection() -> i8 {
     let mut menu_input = String::new();
     match io::stdin().read_line(&mut menu_input) {
         Ok(_) => {
-            println!("{}", menu_input);
             return menu_input.trim().parse().expect("Error: Invalid selection!");
         },
         Err(error) => panic!("{}", error),
@@ -68,10 +68,46 @@ fn exit() {
     std::process::exit(0);
 }
 
-// 1. Addition
-fn addition(result: f64) {
+fn operation<T>(result: f64, calc: T)
+where
+    T: Fn(f64, f64) -> f64,
+{
     let first_operand = enter_first_operand(result);
     let second_operand = enter_second_operand(result);
-    let result = first_operand + second_operand;
+    let result = calc(first_operand, second_operand);
     println!("{}", result);
 }
+
+// 1. Addition
+fn addition(mut result: f64) {
+    operation(result, |a, b| a + b);
+}
+
+// // 2. Subtraction
+fn subtraction(result: f64) {
+    operation(result, |a, b| a - b);
+}
+
+// // 3. Multiplication
+// fn multiplication(result: f64) {
+//     let first_operand = enter_first_operand(result);
+//     let second_operand = enter_second_operand(result);
+//     let result = first_operand * second_operand;
+//     println!("{}", result);
+// }
+// // 4. Division
+// fn division() {
+
+// }
+// // 5. Exponentiation
+// fn exponentiation() {
+
+// }
+// // 6. Logarithm
+// fn lograithm() {
+
+// }
+// // 7. Display Average
+// fn display_average() {
+
+// }
